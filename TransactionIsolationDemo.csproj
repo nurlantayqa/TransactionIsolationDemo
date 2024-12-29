@@ -18,4 +18,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="Views\NonRepeatableRead\Index.cshtml" />
+    <AdditionalFiles Include="Views\PhantomRead\Index.cshtml" />
+  </ItemGroup>
 </Project>

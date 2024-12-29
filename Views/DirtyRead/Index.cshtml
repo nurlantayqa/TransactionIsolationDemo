@@ -32,6 +32,7 @@
                     <option>READ UNCOMMITTED</option>
                     <option>READ COMMITTED</option>
                     <option>REPEATABLE READ</option>
+                    <option>SNAPSHOT</option>
                     <option>SERIALIZABLE</option>
                 </select>
             </div>
@@ -71,26 +72,13 @@
 
 @section Scripts {
     <script>
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/transactionHub")
-            .build();
-
-        connection.on("ReceiveTransactionState", function (message) {
-            const log = document.getElementById("transactionLog");
-            log.innerHTML += `<li>${message}</li>`;
-        });
-
-        connection.start();
-    </script>
-
-    <script>
         $(document).ready(function () {
             $("#simulateButtonA").click(function () {
                 const isolationLevel = $("#isolationLevel").val();
                 const modificationResult = $("#modificationResult").val();
 
                 $.ajax({
-                    url: '@Url.Action("SimulateTransactionA", "Transaction")',
+                    url: '@Url.Action("SimulateTransactionA", "DirtyRead")',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({isolationLevel: isolationLevel, isSuccess: modificationResult === "1"}),
@@ -107,12 +95,12 @@
                 const isolationLevel = $("#isolationLevel").val();
 
                 $.ajax({
-                    url: '@Url.Action("SimulateTransactionB", "Transaction")',
+                    url: '@Url.Action("SimulateTransactionB", "DirtyRead")',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({isolationLevel: isolationLevel}),
                     error: function () {
-                        alert("An error occurred while simulating transaction A.");
+                        alert("An error occurred while simulating transaction B.");
                     }
                 });
             });

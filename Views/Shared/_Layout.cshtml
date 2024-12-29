@@ -24,10 +24,19 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="DirtyRead" asp-action="Index">Dirty Read</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Index">Transaction</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="NonRepeatableRead" asp-action="Index">Non Repeatable Read</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="PhantomRead" asp-action="Index">Phantom</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="LostUpdate" asp-action="Index">Lost Update</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="WriteSkew" asp-action="Index">Write Skew</a>
                         </li>
                     </ul>
                 </div>
@@ -49,6 +58,18 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/transactionHub")
+            .build();
+
+        connection.on("ReceiveTransactionState", function (message) {
+            const log = document.getElementById("transactionLog");
+            log.innerHTML += `<li>${message}</li>`;
+        });
+
+        connection.start();
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

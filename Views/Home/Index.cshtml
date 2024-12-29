@@ -3,6 +3,46 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to Transaction Isolation Demo</h1>
+    <p class="lead">Choose a scenario from the navigation bar to get started.</p>
+    <hr/>
+    <form asp-controller="Home" asp-action="ResetDb">
+        <p>You can use below button to reset db state as initial. It is recommended to do this by each scenario testing</p>
+        <button type="submit" id="resetDbButton" class="btn btn-danger">Reset DB</button>
+    </form>
+</div>
+
+<div class="mt-5 text-center">
+    <h2>Note 1:</h2>
+    <p class="text-center">
+        for READ COMMITTED isolation level SQL Server has 2 options. Wait for other transactions to complete or read the last committed data.
+        You can check this via <br/>
+        <code>SELECT is_read_committed_snapshot_on
+            FROM sys.databases
+            WHERE name = 'TransactionIsolationDemo';
+        </code>
+        <br/>
+        You can enable/disable READ_COMMITTED_SNAPSHOT via <br/>
+        <code>
+            ALTER DATABASE TransactionIsolationDemo SET READ_COMMITTED_SNAPSHOT ON/OFF;
+        </code>
+    </p>
+</div>
+
+<div class="mt-5 text-center">
+    <h2>Note 2:</h2>
+    <p class="text-center">
+        by default Snapshot Isolation in SQL Server is disabled.
+        You can check this via <br/>
+        <code>
+            SELECT snapshot_isolation_state, snapshot_isolation_state_desc
+            FROM sys.databases
+            WHERE name = 'TransactionIsolationDemo';
+        </code>
+        <br/>
+        You can enable/disable ALLOW_SNAPSHOT_ISOLATION via <br/>
+        <code>
+            ALTER DATABASE TransactionIsolationDemo SET ALLOW_SNAPSHOT_ISOLATION ON/OFF;
+        </code>
+    </p>
 </div>

@@ -1,0 +1,115 @@
+<div class="container">
+    <h2>Order List</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach(var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.ProductName</td>
+                <td>@order.Quantity</td>
+                <td>@order.Price</td>
+                <td>@order.Status</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-4 offset-2">
+            <div class="form-group">
+                <label for="isolationLevel">Select Isolation Level:</label>
+                <select name="isolationLevel" class="form-control" id="isolationLevel">
+                    <option>READ UNCOMMITTED</option>
+                    <option>READ COMMITTED</option>
+                    <option>REPEATABLE READ</option>
+                    <option>SNAPSHOT</option>
+                    <option>SERIALIZABLE</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="isolationLevel">Select Modification Result:</label>
+                <select name="isolationLevel" class="form-control" id="modificationResult">
+                    <option value="1">Success</option>
+                    <option value="0">Error</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 offset-3 text-center">
+            <form id="transactionAForm">
+                <button type="button" id="simulateButtonA" class="btn btn-primary mt-3">Transaction A (Read Twice)</button>
+                <button type="button" id="simulateButtonB" class="btn btn-primary mt-3">Transaction B (Insert New Record While A Reads)</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <h3 class="col-6 text-end">Transaction Log</h3>
+        <div class="col-6 text-start">
+            <button type="button" class="btn btn-danger" id="clearLogButton">Clear Log</button>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-8 offset-2">
+            <ul id="transactionLog"></ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#simulateButtonA").click(function () {
+                const isolationLevel = $("#isolationLevel").val();
+                const modificationResult = $("#modificationResult").val();
+
+                $.ajax({
+                    url: '@Url.Action("SimulateTransactionA", "PhantomRead")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({isolationLevel: isolationLevel, isSuccess: modificationResult === "1"}),
+                    success: function () {
+                        console.log("Transaction A completed successfully.");
+                    },
+                    error: function () {
+                        alert("An error occurred while simulating transaction B.");
+                    }
+                });
+            });
+
+            $("#simulateButtonB").click(function () {
+                const isolationLevel = $("#isolationLevel").val();
+
+                $.ajax({
+                    url: '@Url.Action("SimulateTransactionB", "PhantomRead")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({isolationLevel: isolationLevel}),
+                    error: function () {
+                        alert("An error occurred while simulating transaction B.");
+                    }
+                });
+            });
+
+            $("#clearLogButton").click(function () {
+                const log = document.getElementById("transactionLog");
+                log.innerHTML = "";
+            });
+        });
+    </script>
+}
+
