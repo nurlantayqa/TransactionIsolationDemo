@@ -54,4 +54,10 @@ This project demonstrates the effects of different transaction isolation levels 
 
 2. Open your browser and navigate to https://localhost:7270 or http://localhost:5233 depending of run profile to access the application.
 
-3. Use  /Transaction page interface to simulate transactions with different isolation levels and observe the results in the transaction log.
+3. Use Scenario menu page interface to simulate transactions with different isolation levels and observe the results in the transaction log.
+
+4. You can test Dirty Read, Non-Repeatable Read, Phantom Read, Lost Update and Write Skew scenarios.
+
+5. See notes on different pages to understand the results.
+
+6. SignalR is used on the each page to see the real-time updates of the transaction log.
