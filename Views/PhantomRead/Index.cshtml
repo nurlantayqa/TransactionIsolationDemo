@@ -65,8 +65,7 @@
     <script>
         $(document).ready(function () {
             $("#simulateButtonA").click(function () {
-                const isolationLevel = $("#isolationLevel").val();
-                const modificationResult = $("#modificationResult").val();
+                const isolationLevel = removePossibleSuffix($("#isolationLevel").val());
 
                 $.ajax({
                     url: '@Url.Action("SimulateTransactionA", "PhantomRead")',
@@ -83,7 +82,7 @@
             });
 
             $("#simulateButtonB").click(function () {
-                const isolationLevel = $("#isolationLevel").val();
+                const isolationLevel = removePossibleSuffix($("#isolationLevel").val());
 
                 $.ajax({
                     url: '@Url.Action("SimulateTransactionB", "PhantomRead")',

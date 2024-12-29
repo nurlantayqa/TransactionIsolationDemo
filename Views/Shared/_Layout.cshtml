@@ -71,6 +71,12 @@
         connection.start();
     </script>
 
+    <script>
+        function removePossibleSuffix(str) {
+            return str.replace(/\(Possible\)$/, '').trim();
+        }
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
