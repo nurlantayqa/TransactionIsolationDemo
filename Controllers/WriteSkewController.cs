@@ -27,10 +27,14 @@ public class WriteSkewController(AppDbContext context, IHubContext<TransactionHu
         await using var transactionA = await context.Database.BeginTransactionAsync(transactionIsolationLevel);
         try
         {
-            await hub.Clients.All.SendAsync("ReceiveTransactionState", "Transaction A started.");
             if(model.IsExclusiveLock)
             {
                 await context.Database.ExecuteSqlRawAsync("SELECT * FROM Orders WITH (XLOCK) WHERE Status = 'Waiting'");
+                await hub.Clients.All.SendAsync("ReceiveTransactionState", "Transaction A started with exclusive lock.");
+            }
+            else
+            {
+                await hub.Clients.All.SendAsync("ReceiveTransactionState", "Transaction A started with shared lock.");
             }
           
             var waitingCount = await context.Orders.Where(o => o.Status == "Waiting").CountAsync();

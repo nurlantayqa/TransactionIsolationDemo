@@ -29,20 +29,20 @@
             <div class="form-group">
                 <label for="isolationLevel">Select Isolation Level:</label>
                 <select name="isolationLevel" class="form-control" id="isolationLevel">
-                    <option>READ UNCOMMITTED</option>
-                    <option>READ COMMITTED</option>
-                    <option>REPEATABLE READ</option>
-                    <option>SNAPSHOT</option>
+                    <option>READ UNCOMMITTED (Possible)</option>
+                    <option>READ COMMITTED (Possible)</option>
+                    <option>REPEATABLE READ (Possible)</option>
+                    <option>SNAPSHOT (Possible)</option>
                     <option>SERIALIZABLE</option>
                 </select>
             </div>
         </div>
         <div class="col-4">
             <div class="form-group">
-                <label for="isolationLevel">Select Modification Result:</label>
-                <select name="isolationLevel" class="form-control" id="modificationResult">
-                    <option value="1">Success</option>
-                    <option value="0">Error</option>
+                <label for="lockState">Tran A Lock State:</label>
+                <select name="lockState" class="form-control" id="lockState">
+                    <option value="1">Exclusive</option>
+                    <option value="0">Shared</option>
                 </select>
             </div>
         </div>
@@ -75,13 +75,13 @@
         $(document).ready(function () {
             $("#simulateButtonA").click(function () {
                 const isolationLevel = $("#isolationLevel").val();
-                const modificationResult = $("#modificationResult").val();
+                const lockState = $("#lockState").val();
 
                 $.ajax({
                     url: '@Url.Action("SimulateTransactionA", "WriteSkew")',
                     type: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify({isolationLevel: isolationLevel, isSuccess: modificationResult === "1"}),
+                    data: JSON.stringify({isolationLevel: isolationLevel, isExclusiveLock: lockState === "1"}),
                     success: function () {
                         console.log("Transaction A completed successfully.");
                     },

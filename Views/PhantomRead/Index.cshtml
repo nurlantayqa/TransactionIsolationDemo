@@ -25,24 +25,15 @@
     </table>
 
     <div class="row">
-        <div class="col-4 offset-2">
+        <div class="col-4 offset-4">
             <div class="form-group">
                 <label for="isolationLevel">Select Isolation Level:</label>
                 <select name="isolationLevel" class="form-control" id="isolationLevel">
-                    <option>READ UNCOMMITTED</option>
-                    <option>READ COMMITTED</option>
-                    <option>REPEATABLE READ</option>
-                    <option>SNAPSHOT</option>
+                    <option>READ UNCOMMITTED (Possible)</option>
+                    <option>READ COMMITTED (Possible)</option>
+                    <option>REPEATABLE READ (Possible)</option>
+                    <option>SNAPSHOT (Possible)</option>
                     <option>SERIALIZABLE</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="isolationLevel">Select Modification Result:</label>
-                <select name="isolationLevel" class="form-control" id="modificationResult">
-                    <option value="1">Success</option>
-                    <option value="0">Error</option>
                 </select>
             </div>
         </div>
@@ -81,7 +72,7 @@
                     url: '@Url.Action("SimulateTransactionA", "PhantomRead")',
                     type: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify({isolationLevel: isolationLevel, isSuccess: modificationResult === "1"}),
+                    data: JSON.stringify({isolationLevel: isolationLevel}),
                     success: function () {
                         console.log("Transaction A completed successfully.");
                     },

@@ -60,4 +60,4 @@ This project demonstrates the effects of different transaction isolation levels 
 
 5. See notes on different pages to understand the results.
 
-6. SignalR is used on the each page to see the real-time updates of the transaction log.
+6. SignalR is used on each page to see the real-time updates of the transaction log.
