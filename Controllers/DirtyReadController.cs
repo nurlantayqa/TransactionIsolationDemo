@@ -32,7 +32,7 @@ public class DirtyReadController(AppDbContext context, IHubContext<TransactionHu
             var orderA = await context.Orders.OrderBy(x => x.Id).FirstAsync();
             await hub.Clients.All.SendAsync("ReceiveTransactionState", $"Transaction A retrieved a record with count = {orderA.Quantity}.");
 
-            //update the record
+            //update the record quantiyy
             orderA.Quantity += 10;
             await context.SaveChangesAsync();
 
